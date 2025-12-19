@@ -8,25 +8,40 @@ permissions:
   pages: write
   id-token: write
 
+env:
+  NODE_VERSION: 18
+
 jobs:
   deploy:
     runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
 
     steps:
-    - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
 
-    - name: Setup Node
-      uses: actions/setup-node@v3
-      with:
-        node-version: '18'
+      - name: Setup GitHub Pages
+        uses: actions/configure-pages@v5
 
-    - name: Install Dependencies
-      run: npm install
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ env.NODE_VERSION }}
 
-    - name: Build Static Export
-      run: npm run build && npm run export
+      - name: Install Dependencies
+        run: npm install
 
-    - name: Deploy
-      uses: actions/deploy-pages@v1
-      with:
-        folder: out
+      - name: Build Static Export
+        run: npm run build && npm run export
+
+      - name: Upload artifact
+        uses: actions/upload-pages-artifact@v4
+        with:
+          path: out
+
+      - name: Deploy
+        id: deployment
+        uses: actions/deploy-pages@v4
+        with:
+          artifact_name: github-pages
