@@ -7,7 +7,7 @@
     "build": "next build",
     "start": "next start",
     "lint": "eslint",
-    "export": "next export",
+    "export": "next export"
   },
   "dependencies": {
     "next": "16.1.0",
