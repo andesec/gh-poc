@@ -1,36 +1,25 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+This project statically exports a Next.js site for GitHub Pages.
 
-## Getting Started
-
-First, run the development server:
+## Local development
 
 ```bash
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Open [http://localhost:3000](http://localhost:3000) to view changes. Edit `app/page.tsx` to update the content.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## Build and export
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+Pages are published from the static export in `out/`.
 
-## Learn More
+```bash
+npm run build && npm run export
+```
 
-To learn more about Next.js, take a look at the following resources:
+The `basePath` and `assetPrefix` are set to `/gh-poc`, so assets and routes resolve correctly under the repository name when the site is hosted on GitHub Pages.
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+## Deploying to GitHub Pages via Actions
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+1. Enable GitHub Pages to deploy from GitHub Actions in the repository settings.
+2. Push to `main` to run `.github/workflows/deploy.yml`. The workflow installs dependencies, builds, exports, uploads `out/` as the Pages artifact, and deploys it with `actions/deploy-pages`.
+3. The site will be available at `https://<username>.github.io/gh-poc/` with trailing slashes on routes to match the static export configuration.

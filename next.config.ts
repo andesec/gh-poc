@@ -1,7 +1,15 @@
 import type { NextConfig } from "next";
 
+const repositoryName = "gh-poc";
+
 const nextConfig: NextConfig = {
-  /* config options here */
+  output: "export",
+  basePath: `/${repositoryName}`,
+  assetPrefix: `/${repositoryName}/`,
+  trailingSlash: true,
+  images: {
+    unoptimized: true,
+  },
 };
 
 export default nextConfig;
